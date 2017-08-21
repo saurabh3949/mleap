@@ -46,11 +46,15 @@ class MleapResource(service: MleapService)
           } ~ get {
             complete(service.getSchema())
           }
-        } ~ path("transform") {
+        } ~ path("invocations") {
           post {
             entity(as[DefaultLeapFrame]) {
               frame => complete(service.transform(frame))
             }
+          }
+        } ~ path("ping") {
+          get {
+            complete("PONG!")
           }
         }
       }
