@@ -31,6 +31,14 @@ class MleapService()
     case Success(b) => setBundle(b)
   }.map(_ => LoadModelResponse())
 
+  def ping(): Try[String] = {
+    if (this.bundle != None) {
+      Success("PONG!")
+    } else {
+      Failure(new IllegalStateException("no transformer loaded"))
+    }
+  }
+
   def unloadModel(request: UnloadModelRequest): Future[UnloadModelResponse] = {
     unsetBundle()
     Future.successful(UnloadModelResponse())
