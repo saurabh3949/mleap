@@ -4,7 +4,7 @@ import com.typesafe.sbt.packager.linux.LinuxPlugin.autoImport._
 
 object DockerConfig {
   val baseSettings = Seq(daemonUser in Docker := "root",
-    dockerExposedPorts := Seq(65327),
+    dockerExposedPorts := Seq(8080),
     dockerRepository := Some("combustml"),
     dockerBuildOptions := Seq("-t", dockerAlias.value.versioned) ++ (
       if (dockerUpdateLatest.value)
