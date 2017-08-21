@@ -54,7 +54,7 @@ class MleapResource(service: MleapService)
           }
         } ~ path("ping") {
           get {
-            complete("PONG!")
+            complete(service.ping())
           }
         }
       }
