@@ -44,11 +44,15 @@ class MleapResource(service: MleapService)
           } ~ delete {
             complete(service.unloadModel(UnloadModelRequest()))
           }
-        } ~ path("transform") {
+        } ~ path("invocations") {
           post {
             entity(as[DefaultLeapFrame]) {
               frame => complete(service.transform(frame))
             }
+          }
+        } ~ path("ping") {
+          get {
+            complete("PONG!")
           }
         }
       }
