@@ -27,6 +27,8 @@ class MleapServer(tConfig: Config)
   val config = MleapConfig(tConfig.getConfig("ml.combust.mleap.serving"))
 
   val service = new MleapService()
+  service.loadModelFromString("/models/model.zip")
+
   val resource = new MleapResource(service)
   val routes = resource.routes
 

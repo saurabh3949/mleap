@@ -18,6 +18,6 @@ object DockerConfig {
       case cmd => false
     },
     dockerCommands += Cmd("RUN", "mkdir", "/models"),
-    dockerCommands += Cmd("RUN", "wget", "https://github.com/saurabh3949/mleap/blob/master/pretrained/spamClassifierIM.zip?raw=true","-O", "/models/spamClassifierIM.zip")
+    dockerCommands += Cmd("RUN", "wget", "https://github.com/saurabh3949/mleap/blob/master/pretrained/spamClassifierIM.zip?raw=true","-O", "/models/model.zip")
   )
 }

@@ -9,8 +9,8 @@ import ml.combust.mleap.runtime.transformer.Transformer
 import ml.combust.mleap.serving.domain.v1.{LoadModelRequest, LoadModelResponse, UnloadModelRequest, UnloadModelResponse}
 import ml.combust.mleap.runtime.MleapSupport._
 import resource._
-
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{ExecutionContext, Future, Await}
 import scala.util.{Failure, Success, Try}
 
 /**
@@ -22,6 +22,14 @@ class MleapService()
 
   def setBundle(bundle: Bundle[Transformer]): Unit = synchronized(this.bundle = Some(bundle))
   def unsetBundle(): Unit = synchronized(this.bundle = None)
+
+  def loadModelFromString(model: String) = Future {
+    (for(bf <- managed(BundleFile(new File(model)))) yield {
+      bf.loadMleapBundle()
+    }).tried.flatMap(identity)
+  }.flatMap(r => Future.fromTry(r)).andThen {
+    case Success(b) => setBundle(b)
+  }.map(_ => LoadModelResponse())
 
   def loadModel(request: LoadModelRequest): Future[LoadModelResponse] = Future {
     (for(bf <- managed(BundleFile(new File(request.path.get.toString)))) yield {
