@@ -12,6 +12,7 @@ import resource._
 import scala.concurrent.duration.Duration
 import scala.concurrent.{ExecutionContext, Future, Await}
 import scala.util.{Failure, Success, Try}
+import java.io.File
 
 /**
   * Created by hollinwilkins on 1/30/17.
@@ -22,6 +23,15 @@ class MleapService()
 
   def setBundle(bundle: Bundle[Transformer]): Unit = synchronized(this.bundle = Some(bundle))
   def unsetBundle(): Unit = synchronized(this.bundle = None)
+
+  def getListOfFiles(dir: String):Array[String] = {
+      val d = new File(dir)
+      if (d.exists && d.isDirectory) {
+          d.listFiles.filter(_.isFile).map(_.getAbsolutePath)
+      } else {
+          Array[String]()
+      }
+  }
 
   def loadModelFromString(model: String) = Future {
     (for(bf <- managed(BundleFile(new File(model)))) yield {
