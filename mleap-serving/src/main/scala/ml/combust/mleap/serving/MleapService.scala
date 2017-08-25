@@ -66,6 +66,8 @@ class MleapService()
   def transform(frame: DefaultLeapFrame): Try[DefaultLeapFrame] = synchronized {
     bundle.map {
       _.root.transform(frame)
+    }.map{
+      case Success(b) => b.select("prediction")
     }.getOrElse(Failure(new IllegalStateException("no transformer loaded")))
   }
 
