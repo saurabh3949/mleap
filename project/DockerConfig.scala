@@ -16,8 +16,6 @@ object DockerConfig {
     dockerCommands := dockerCommands.value.filterNot {
       case ExecCmd("RUN", args @ _*) => args.contains("chown")
       case cmd => false
-    },
-    dockerCommands += Cmd("RUN", "mkdir", "/models"),
-    dockerCommands += Cmd("RUN", "wget", "https://github.com/saurabh3949/mleap/blob/master/pretrained/spamClassifierIM.zip?raw=true","-O", "/models/model.zip")
+    }
   )
 }
