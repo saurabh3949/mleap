@@ -16,6 +16,7 @@ object DockerConfig {
     dockerCommands := dockerCommands.value.filterNot {
       case ExecCmd("RUN", args @ _*) => args.contains("chown")
       case cmd => false
-    }
+    },
+    dockerCommands += Cmd("RUN", "echo", "'alias serve=bin/mleap-serving' >> ~/.bashrc")
   )
 }
